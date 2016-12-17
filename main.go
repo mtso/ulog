@@ -10,7 +10,8 @@ import (
 )
 
 const (
-	db_source = "user=kingcandy password=cupcakes dbname=urilog sslmode=disable"
+	// Localhost dummy db
+	db_local = "user=kingcandy password=cupcakes dbname=urilog sslmode=disable"
 )
 
 type Env struct {
@@ -18,7 +19,12 @@ type Env struct {
 }
 
 func main() {
-	psql, err := models.InitDB(db_source)
+	db_url := os.Getenv("DATABASE_URL")
+	if db_url == "" {
+		db_url = db_local
+	}
+
+	psql, err := models.InitDB("postgres", db_url)
 	if err != nil {
 		log.Panic(err)
 	}
@@ -35,6 +41,7 @@ func main() {
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
 
+// Single /log endpoint for both GET and POST
 func (env *Env) logEndpoint(w http.ResponseWriter, r *http.Request) {
 	switch m := r.Method; {
 	case m == "GET":

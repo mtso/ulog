@@ -5,8 +5,8 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func InitDB(dataSourceName string) (*sql.DB, error) {
-	db, err:= sql.Open("postgres", dataSourceName)
+func InitDB(databaseType, databaseUrl string) (*sql.DB, error) {
+	db, err:= sql.Open(databaseType, databaseUrl)
 	if err != nil {
 		return nil, err
 	}
