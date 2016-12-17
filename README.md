@@ -14,6 +14,6 @@ Returns all URI's stored in the database in the format:
     
 #### `POST /log?uri=[uri][&description=[text]]`
 
-Saves a URI with a description and timestamp. The description is optional. Parameters must be in valid uri encoding. Returns with a response of: 
+Saves a URI with a description and timestamp. The description is optional. Parameters must be in valid uri encoding. If successful, returns with a response of: 
 
     Successfully created "[log_description]...", 1 row(s) affected.
