@@ -1,4 +1,6 @@
-# Manual SQL Queries
+# Manual query and curl copypastas
+
+## Manual SQL Queries
 
 ```
 CREATE TABLE log (
@@ -35,4 +37,14 @@ INSERT INTO log (log_uri, log_description) VALUES('https://lh3.googleusercontent
 
 ```
 INSERT INTO log (log_uri) VALUES('http://flyingegger.com/cartoon/flyingegger/images/flyingegger21.gif');
+```
+
+## curl samples
+
+```
+curl -i -X POST -d "description=Task%20structure%20diagram.&uri=https%3A%2F%2Flh3.googleusercontent.com%2FnGMQIKnv7oxWgiKfboTroWQj7cLyf9eCqPkD_G4fJHvcFahy6m4ZAzR98xtVH97F834JK8uUZ-xIe9x51lQsuG20H9vpZAIaKZYK4M1uplnM_K6mRdlR4e0o2wTVPL7MvdA1NM52RzKxX3wmeEiB2foi_6wVANKhB5WETrPclMwk7jyzfpDzZVae5Ac45nbuuVJWfUz-l60X4B2o9yZ8jym2v60XHu86FWtbaUBPMw_AfxKGZ5c0XsKbXtdLIXUWH5cNK_sgv1cmJcXEkevV_N6i0MHTHZ_a72wzNp--mgxbcbWLEJMXxkHS6t8DdqoAwsRin28SVcAoPgv82dOZ908K8E9ps4n5_cAxjLgbx_cUkoSCSirU0NprBSwv-apxX-UBfO7YYOgIHiS377fgKtV1tORbxzPTAUVZxiBPzC0Rp0p9iDcPt05GVRqoDWngWtUf9oj38jIXKXsqqooDXKE_IASADLWYVSXPKhr9t55uLg1NxOB2a0uylVGHXHxdllopM6vpN_w2vLKH4co_MHs-QYjXvJxS3tedNhrcv9Roc8Z4uWbxvvtpOqRMP6yJyCMLpyN2KqVF76EZ77bT7rwZMzTMO6s2nP5fT37T6wUXoqCYnp5w%3Dw1006-h754-no" https://ulog.herokuapp.com/log
+```
+
+```
+curl -i -X POST -d "uri=http://flyingegger.com/cartoon/flyingegger/images/flyingegger21.gif" https://ulog.herokuapp.com/log
 ```
