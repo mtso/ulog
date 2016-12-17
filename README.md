@@ -1,6 +1,6 @@
 # ulog [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-A URI logger to demo Postgresql's data types. An attempt at rolling my own go/postgresql app after following the tutorial over at: http://www.alexedwards.net/blog/practical-persistence-sql.
+A URI logger to demo Postgresql's data types. An attempt at rolling my own go/postgresql web service after following the tutorial over at: http://www.alexedwards.net/blog/practical-persistence-sql.
 
 ## Resulting API
 
