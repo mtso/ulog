@@ -69,7 +69,7 @@ func (env *Env) logEndpoint(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		fmt.Println("POST /log")
-		fmt.Fprintf(w, "Successfully created \"%s...\", %d row(s) affected.", description, rowsAffected)
+		fmt.Fprintf(w, "Successfully created \"%s...\", %d row(s) affected.\n", description, rowsAffected)
 
 	default:
 		http.Error(w, http.StatusText(405), 405)
