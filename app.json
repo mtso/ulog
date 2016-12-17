@@ -1,0 +1,20 @@
+{
+	"name": "ulog",
+	"description": "URI logging app with GET and POST endpoint at /log",
+	"repository": "https://github.com/mtso/ulog",
+	"keywords": [
+		"uri",
+		"go",
+		"postgresql"
+	],
+	"addons": [
+		{
+			"plan": "heroku-postgresql:hobby-dev"
+		}
+	],
+	"buildpacks": [
+		{
+			"url": "heroku/go"
+		}
+	]
+}

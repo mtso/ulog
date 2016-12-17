@@ -11,6 +11,7 @@ import (
 
 const (
 	// Localhost dummy db
+	// Change these parameters to fit your postgresql instance
 	db_local = "user=kingcandy password=cupcakes dbname=urilog sslmode=disable"
 )
 
@@ -37,7 +38,7 @@ func main() {
 
 	http.HandleFunc("/log", env.logEndpoint)
 
-	log.Print("listening on " + port)
+	log.Println("listening on " + port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
 
@@ -52,7 +53,7 @@ func (env *Env) logEndpoint(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(error)
 			return
 		}
-		fmt.Println("GET /log")
+		log.Println("GET /log")
 		for _, log := range logs {
 			fmt.Fprintf(w, "log_id=%v log_timestamp=%s\nlog_description=\"%s\"\nlog_uri=\"%s\"\n\n", log.Id, log.Timestamp, log.Description.String, log.Uri)
 		}
@@ -68,7 +69,7 @@ func (env *Env) logEndpoint(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(error)
 			return
 		}
-		fmt.Println("POST /log")
+		log.Println("POST /log")
 		fmt.Fprintf(w, "Successfully created \"%s...\", %d row(s) affected.\n", description, rowsAffected)
 
 	default:
