@@ -58,10 +58,10 @@ func CreateLog(db *sql.DB, uri string, description string) (int, error) {
 		return 0, err
 	}
 
-	count, err = result.RowsAffected()
+	count, err := result.RowsAffected()
 	if err != nil {
 		return 0, err
 	}
 
-	return count, nil
+	return int(count), nil
 }
