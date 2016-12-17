@@ -1,10 +1,11 @@
 package main
 
 import (
-	"ulog/models"
+	"github.com/mtso/ulog/models"
 	"database/sql"
 	"log"
 	"net/http"
+	"fmt"
 )
 
 const (
@@ -22,7 +23,8 @@ func main() {
 	}
 	env := &Env{db: psql}
 
-	http.HandleFunc("/log", )
+	http.HandleFunc("/log", env.retrieveLogs)
+	http.ListenAndServe(":3000", nil)
 }
 
 func (env *Env) retrieveLogs(w http.ResponseWriter, r *http.Request) {
@@ -31,11 +33,13 @@ func (env *Env) retrieveLogs(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	logs, error := models.AllLogs(env.db)
-	if err != nil {
-		http.Err(w, http.StatusText(500), 500)
+	if error != nil {
+		http.Error(w, http.StatusText(500), 500)
+		fmt.Println(error)
 		return
 	}
 	for _, log := range logs {
-		fmt.Fprintf(w, "%s %s: %s; \"%s...\"", log.Id, log.Timestamp, log.Description, log.Uri[:15])
+		// fmt.Fprintf(w, "%v: %s \"%s...\"\n", log.Id, log.Description.String[:22], log.Uri[:15])
+		fmt.Fprintf(w, "%v %s: %s; \"%s...\"\n", log.Id, log.Timestamp, log.Description.String, log.Uri[:15])
 	}
 }

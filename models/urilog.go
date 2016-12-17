@@ -2,26 +2,26 @@ package models
 
 import (
 	"database/sql"
-	"time"
+	//"time"
 )
 
 type UriLog struct {
-	Timestamp Time
+	Timestamp string //time.Time
 	Uri string
 	Description sql.NullString
 	Id int
 }
 
-func AllLogs(db *sql.DB) ([]*Log, error) {
+func AllLogs(db *sql.DB) ([]*UriLog, error) {
 	rows, err := db.Query("SELECT * FROM log")
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	logs := make([]*Log, 0)
+	logs := make([]*UriLog, 0)
 	for rows.Next() {
-		book := new(Book)
+		log := new(UriLog)
 		err := rows.Scan(&log.Id, &log.Uri, &log.Description, &log.Timestamp)
 		if err != nil {
 			return nil, err
@@ -31,5 +31,5 @@ func AllLogs(db *sql.DB) ([]*Log, error) {
 	if err = rows.Err(); err != nil {
 		return nil, err
 	}
-	return books, nil
+	return logs, nil
 }
