@@ -10,14 +10,14 @@ const (
 	timestamptzFormat = "2006-01-02T15:04:05.999999Z"
 
 	queryAllDescending = "SELECT * FROM log ORDER BY log_id DESC"
-	queryInsert = "INSERT INTO log (log_uri, log_description) VALUES($1, $2)"
+	queryInsert        = "INSERT INTO log (log_uri, log_description) VALUES($1, $2)"
 )
 
 type UriLog struct {
-	Timestamp time.Time
-	Uri string
+	Timestamp   time.Time
+	Uri         string
 	Description sql.NullString
-	Id int
+	Id          int
 }
 
 func AllLogs(db *sql.DB) ([]*UriLog, error) {

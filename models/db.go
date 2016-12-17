@@ -20,7 +20,7 @@ const (
 )
 
 func InitDB(databaseType, databaseUrl string) (*sql.DB, error) {
-	db, err:= sql.Open(databaseType, databaseUrl)
+	db, err := sql.Open(databaseType, databaseUrl)
 	if err != nil {
 		return nil, err
 	}

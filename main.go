@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/mtso/ulog/models"
 	"database/sql"
+	"fmt"
+	"github.com/mtso/ulog/models"
 	"log"
 	"net/http"
-	"fmt"
 	"os"
 )
 
