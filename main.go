@@ -39,7 +39,6 @@ func (env *Env) retrieveLogs(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	for _, log := range logs {
-		// fmt.Fprintf(w, "%v: %s \"%s...\"\n", log.Id, log.Description.String[:22], log.Uri[:15])
-		fmt.Fprintf(w, "%v %s: %s; \"%s...\"\n", log.Id, log.Timestamp, log.Description.String, log.Uri[:15])
+		fmt.Fprintf(w, "log_id=%v log_timestamp=%s\nlog_description=\"%s\"\nlog_uri=\"%s\"\n\n", log.Id, log.Timestamp, log.Description.String, log.Uri)
 	}
 }
