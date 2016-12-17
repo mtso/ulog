@@ -1,0 +1,17 @@
+{
+	"ImportPath": "github.com/mtso/ulog",
+	"GoVersion": "go1.7",
+	"GodepVersion": "v75",
+	"Deps": [
+		{
+			"ImportPath": "github.com/lib/pq",
+			"Comment": "go1.0-cutoff-128-g4a82388",
+			"Rev": "4a82388ebc5138c8289fe9bc602cb0b3e32cd617"
+		},
+		{
+			"ImportPath": "github.com/lib/pq/oid",
+			"Comment": "go1.0-cutoff-128-g4a82388",
+			"Rev": "4a82388ebc5138c8289fe9bc602cb0b3e32cd617"
+		}
+	]
+}
