@@ -6,15 +6,18 @@ import (
 )
 
 const (
-	// ref time: Mon Jan 2 15:04:05 -0700 MST 2006
-	timestamptzFormat = "2006-01-02T15:04:05.999999Z"
-
 	queryAllDescending = "SELECT * FROM log ORDER BY log_id DESC"
 	queryInsert        = "INSERT INTO log (log_uri, log_description) VALUES($1, $2)"
 )
 
 type UriLog struct {
-	Timestamp   time.Time
+	// Must use pointer for time.Time
+	// From: https://golang.org/pkg/database/sql/#Rows.Scan
+	// ```
+	// Source values of type time.Time may be scanned into values
+	// of type *time.Time, *interface{}, *string, or *[]byte. 
+	// ```
+	Timestamp   *time.Time
 	Uri         string
 	Description sql.NullString
 	Id          int
@@ -22,27 +25,21 @@ type UriLog struct {
 
 func AllLogs(db *sql.DB) ([]*UriLog, error) {
 
+	// Query log table
 	rows, err := db.Query(queryAllDescending)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
+	// Map rows into UriLog objects
 	logs := make([]*UriLog, 0)
 	for rows.Next() {
 		log := new(UriLog)
-		rawtime := make([]byte, 0)
-		// Place timestamp in byte buffer
-		err := rows.Scan(&log.Id, &log.Uri, &log.Description, &rawtime)
+		err := rows.Scan(&log.Id, &log.Uri, &log.Description, &log.Timestamp)
 		if err != nil {
 			return nil, err
 		}
-		// Parse timestamp into time.Time type
-		t, err := time.Parse(timestamptzFormat, string(rawtime))
-		if err != nil {
-			return nil, err
-		}
-		log.Timestamp = t
 		logs = append(logs, log)
 	}
 	if err = rows.Err(); err != nil {
