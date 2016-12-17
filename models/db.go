@@ -6,16 +6,11 @@ import (
 )
 
 const (
-	queryTableCreate = `CREATE TABLE log (
+	queryTableCreateIfNotExist = `CREATE TABLE IF NOT EXISTS log (
 		log_id bigserial PRIMARY KEY,
 		log_uri text NOT NULL,
 		log_description text,
 		log_timestamp timestamp WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
-	);`
-	queryExists = `SELECT EXISTS ( 
-		SELECT 1
-		FROM information_schema.tables 
-		WHERE table_name='log'
 	);`
 )
 
@@ -29,8 +24,8 @@ func InitDB(databaseType, databaseUrl string) (*sql.DB, error) {
 	}
 
 	// Create log table if it doesn't exist
-	if _, error := db.Query(queryExists); error != nil {
-		db.Exec(queryTableCreate)
+	if _, error := db.Exec(queryTableCreateIfNotExist); error != nil {
+		return nil, error
 	}
 
 	return db, nil
