@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"fmt"
+	"os"
 )
 
 const (
@@ -23,8 +24,14 @@ func main() {
 	}
 	env := &Env{db: psql}
 
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3000"
+	}
+
 	http.HandleFunc("/log", env.retrieveLogs)
-	http.ListenAndServe(":3000", nil)
+	log.Print("listening on " + port)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
 
 func (env *Env) retrieveLogs(w http.ResponseWriter, r *http.Request) {
@@ -38,6 +45,7 @@ func (env *Env) retrieveLogs(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(error)
 		return
 	}
+	fmt.Println("GET /log")
 	for _, log := range logs {
 		fmt.Fprintf(w, "log_id=%v log_timestamp=%s\nlog_description=\"%s\"\nlog_uri=\"%s\"\n\n", log.Id, log.Timestamp, log.Description.String, log.Uri)
 	}
