@@ -20,6 +20,8 @@ func InitDB(databaseType, databaseUrl string) (*sql.DB, error) {
 	if err != nil {
 		return nil, err
 	}
+	
+	// Ping to ensure live connection
 	if err = db.Ping(); err != nil {
 		return nil, err
 	}
