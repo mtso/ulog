@@ -64,9 +64,9 @@ func (env *Env) logEndpoint(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if r.URL.Host == "m-m.io" {
-			w.Header().Set("Access-Control-Allow-Origin", "m-m.io")
+			w.Header().Set("Access-Control-Allow-Origin", "https://www.m-m.io")
 		}
-		
+
 		// Log and return results
 		log.Println("GET /log")
 		for _, log := range logs {
