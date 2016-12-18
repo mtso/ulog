@@ -70,7 +70,8 @@ func (env *Env) logEndpoint(w http.ResponseWriter, r *http.Request) {
 		// Log and return results
 		log.Println("GET /log")
 		for _, log := range logs {
-			fmt.Fprintf(w, "log_description=\"%s\"\nlog_id=%v log_timestamp=%s\nlog_uri=\"%s\"\n\n", log.Description.String, log.Id, log.Timestamp, log.Uri)
+			// fmt.Fprintf(w, "log_description=\"%s\"\nlog_id=%v log_timestamp=%s\nlog_uri=\"%s\"\n\n", log.Description.String, log.Id, log.Timestamp, log.Uri)
+			fmt.Fprintf(w, "Description: \"%s\"\n%s\nURI:%s\n\n", log.Description.String, log.Timestamp, log.Uri)
 		}
 
 	case m == "POST":
