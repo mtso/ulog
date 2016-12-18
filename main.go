@@ -65,7 +65,7 @@ func (env *Env) logEndpoint(w http.ResponseWriter, r *http.Request) {
 
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 
-		// log.Println(r.URL.Host)
+		log.Println(r.URL)
 		// if r.URL.Host == "m-m.io" {
 		// 	w.Header().Set("Access-Control-Allow-Origin", "*") //https://www.m-m.io")
 		// }
