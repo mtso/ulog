@@ -13,13 +13,11 @@ const (
 type UriLog struct {
 	// Must use pointer for time.Time
 	// From: https://golang.org/pkg/database/sql/#Rows.Scan
-	// ```
-	// Source values of type time.Time may be scanned into values
-	// of type *time.Time, *interface{}, *string, or *[]byte. 
-	// ```
+	//    "Source values of type time.Time may be scanned into values
+	//     of type *time.Time, *interface{}, *string, or *[]byte."
 	Timestamp   *time.Time
-	Uri         string
 	Description sql.NullString
+	Uri         string
 	Id          int
 }
 
@@ -42,6 +40,7 @@ func AllLogs(db *sql.DB) ([]*UriLog, error) {
 		}
 		logs = append(logs, log)
 	}
+	// Catch errors during scan
 	if err = rows.Err(); err != nil {
 		return nil, err
 	}
@@ -50,15 +49,17 @@ func AllLogs(db *sql.DB) ([]*UriLog, error) {
 
 func CreateLog(db *sql.DB, uri string, description string) (int, error) {
 
+	// Execute SQL insert statement with uri and description
 	result, err := db.Exec(queryInsert, uri, description)
 	if err != nil {
 		return 0, err
 	}
 
+	// Get the count of rows affected, should only ever be one
 	count, err := result.RowsAffected()
 	if err != nil {
 		return 0, err
 	}
-
+	
 	return int(count), nil
 }

@@ -15,6 +15,7 @@ const (
 )
 
 func InitDB(databaseType, databaseUrl string) (*sql.DB, error) {
+	// Open database type with url
 	db, err := sql.Open(databaseType, databaseUrl)
 	if err != nil {
 		return nil, err
@@ -23,7 +24,7 @@ func InitDB(databaseType, databaseUrl string) (*sql.DB, error) {
 		return nil, err
 	}
 
-	// Create log table if it doesn't exist
+	// Create `log` table if it doesn't exist
 	if _, error := db.Exec(queryTableCreateIfNotExist); error != nil {
 		return nil, error
 	}
