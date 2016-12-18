@@ -62,10 +62,15 @@ func (env *Env) logEndpoint(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(error)
 			return
 		}
+
+		if r.URL.Host == "m-m.io" {
+			w.Header().Set("Access-Control-Allow-Origin", "m-m.io")
+		}
+		
 		// Log and return results
 		log.Println("GET /log")
 		for _, log := range logs {
-			fmt.Fprintf(w, "log_id=%v log_timestamp=%s\nlog_description=\"%s\"\nlog_uri=\"%s\"\n\n", log.Id, log.Timestamp, log.Description.String, log.Uri)
+			fmt.Fprintf(w, "log_description=\"%s\"\nlog_id=%v log_timestamp=%s\nlog_uri=\"%s\"\n\n", log.Id, log.Timestamp, log.Description.String, log.Uri)
 		}
 
 	case m == "POST":
