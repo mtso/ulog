@@ -15,10 +15,10 @@ type UriLog struct {
 	// From: https://golang.org/pkg/database/sql/#Rows.Scan
 	//    "Source values of type time.Time may be scanned into values
 	//     of type *time.Time, *interface{}, *string, or *[]byte."
-	Timestamp   *time.Time
-	Description sql.NullString
-	Uri         string
-	Id          int
+	Timestamp   *time.Time     `json:"timestamp"`
+	Description sql.NullString `json:"description"`
+	Uri         string         `json:"uri"`
+	Id          int            `json:"id"`
 }
 
 func AllLogs(db *sql.DB) ([]*UriLog, error) {

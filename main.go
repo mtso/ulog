@@ -3,7 +3,7 @@ package main
 import (
 	"database/sql"
 	"net/http"
-	"fmt"
+	"encoding/json"
 	"log"
 	"os"
 
@@ -19,6 +19,12 @@ const (
 // Environment object holds a pointer to the database connection
 type Env struct {
 	db *sql.DB
+}
+
+// PostResponse
+type PostResponse struct {
+	Success bool `json:"success"`
+	RowsAffected int `json:"rows_affected"`
 }
 
 func main() {
@@ -59,20 +65,21 @@ func (env *Env) logEndpoint(w http.ResponseWriter, r *http.Request) {
 		logs, error := models.AllLogs(env.db)
 		if error != nil {
 			http.Error(w, http.StatusText(500), 500)
-			fmt.Println(error)
 			return
 		}
 
 		// Allow anyone to GET log data
 		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Content-Type", "application/json")
 		log.Println(r.URL)
 
-		// Log and return results
+		// Log and return json results
 		log.Println("GET /log")
-		for _, log := range logs {
-			// fmt.Fprintf(w, "log_description=\"%s\"\nlog_id=%v log_timestamp=%s\nlog_uri=\"%s\"\n\n", log.Description.String, log.Id, log.Timestamp, log.Uri)
-			fmt.Fprintf(w, "Description: \"%s\"\n%s\nURI:%s\n\n", log.Description.String, log.Timestamp, log.Uri)
+		jsonLogs, error := json.Marshal(logs)
+		if error != nil {
+			http.Error(w, error.Error(), http.StatusInternalServerError)
 		}
+		w.Write(jsonLogs)
 
 	case m == "POST":
 		// Parse parameter values
@@ -83,12 +90,22 @@ func (env *Env) logEndpoint(w http.ResponseWriter, r *http.Request) {
 		rowsAffected, error := models.CreateLog(env.db, uri, description)
 		if error != nil {
 			http.Error(w, http.StatusText(500), 500)
-			fmt.Println(error)
 			return
 		}
+
 		// Log and return results
 		log.Println("POST /log")
-		fmt.Fprintf(w, "Successfully created \"%s...\", %d row(s) affected.\n", description, rowsAffected)
+		jsonResponse := &PostResponse {
+			Success: true,
+			RowsAffected: rowsAffected,
+		}
+
+		// Create a json response
+		success, error := json.Marshal(jsonResponse)
+		if error != nil {
+			http.Error(w, error.Error(), http.StatusInternalServerError)
+		}
+		w.Write(success)
 
 	default:
 		http.Error(w, http.StatusText(405), 405)
